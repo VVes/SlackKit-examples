@@ -22,8 +22,6 @@
 // THE SOFTWARE.
 
 import Foundation
-import SlackKit
 
-let leaderboard = Leaderboard(token: "SLACK_AUTH_TOKEN")
-leaderboard.client.connect()
+let leaderboard = Leaderboard(clientID: "CLIENT-ID", clientSecret: "CLIENT-SECRET")
 NSRunLoop.mainRunLoop().run()
