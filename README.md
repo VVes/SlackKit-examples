@@ -7,7 +7,7 @@ A basic leaderboard scoring bot, in the spirit of [PlusPlus](https://plusplus.ch
 To configure it, enter your bot’s API token in `main.swift` for the Leaderboard bot:
 
 ```swift
-let learderboard = Leaderboard(token: "SLACK_AUTH_TOKEN")
+let leaderboard = Leaderboard(clientID: "CLIENT-ID", clientSecret: "CLIENT-SECRET")
 ```
 
 It adds a point for every `@thing++`, subtracts a point for every `@thing--`, and shows a leaderboard when asked `@botname leaderboard`.
