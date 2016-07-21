@@ -28,6 +28,6 @@ let package = Package(
     targets: [],
     dependencies: [
         .Package(url: "https://github.com/pvzig/SlackKit",
-            majorVersion: 2),
+            majorVersion: 3),
     ]
 )

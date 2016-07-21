@@ -36,14 +36,14 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     var leaderboards: [Leaderboard] = []
-    let atSet = NSCharacterSet(charactersInString: "@")
+    let atSet = CharacterSet(charactersIn: "@")
     
     let bot: SlackKit
     
     init(clientID: String, clientSecret: String) {
         bot = SlackKit(clientID: clientID, clientSecret: clientSecret)
         bot.onClientInitalization = { (client: Client) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 client.messageEventsDelegate = self
             })
         }
@@ -59,53 +59,54 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     // MARK: MessageEventsDelegate
-    func messageReceived(client: Client, message: Message) {
+    func messageReceived(_ client: Client, message: Message) {
         listen(client, message: message)
     }
     
-    func messageSent(client: Client, message: Message){}
-    func messageChanged(client: Client, message: Message){}
-    func messageDeleted(client: Client, message: Message?){}
+    func messageSent(_ client: Client, message: Message){}
+    func messageChanged(_ client: Client, message: Message){}
+    func messageDeleted(_ client: Client, message: Message?){}
     
     // MARK: Leaderboard Internal Logic
-    private func listen(client: Client, message: Message) {
-        if let id = client.authenticatedUser?.id, text = message.text {
-            if text.lowercaseString.containsString(Command.Leaderboard.rawValue) && text.containsString(id) == true {
+    private func listen(_ client: Client, message: Message) {
+        if let id = client.authenticatedUser?.id, let text = message.text {
+            if text.lowercased().contains(Command.Leaderboard.rawValue) && text.contains(id) == true {
                 handleCommand(client, command: .Leaderboard, channel: message.channel)
             }
         }
-        if message.text?.containsString(Trigger.PlusPlus.rawValue) == true {
+        if message.text?.contains(Trigger.PlusPlus.rawValue) == true {
             handleMessageWithTrigger(client, message: message, trigger: .PlusPlus)
         }
-        if message.text?.containsString(Trigger.MinusMinus.rawValue) == true {
+        if message.text?.contains(Trigger.MinusMinus.rawValue) == true {
             handleMessageWithTrigger(client, message: message, trigger: .MinusMinus)
         }
     }
     
-    private func handleMessageWithTrigger(client: Client, message: Message, trigger: Trigger) {
-        if let text = message.text,
-            end = text.rangeOfString(trigger.rawValue)?.startIndex.predecessor(),
-            start = text.rangeOfCharacterFromSet(atSet, options: .BackwardsSearch, range: text.startIndex..<end)?.startIndex {
-            if let id = client.team?.id where leaderboards.filter({$0.teamID == id}).count == 0 {
-                leaderboards.append(Leaderboard(teamID: id))
-            }
-            guard var leaderboard = leaderboards.filter({$0.teamID == client.team?.id}).first else {
-                return
-            }
-            let string = text.substringWithRange(start...end)
-            let users = client.users.values.filter{$0.id == self.userID(string)}
-            if users.count > 0 {
-                let idString = userID(string)
-                initalizationForValue(&leaderboard, value: idString)
-                scoringForValue(&leaderboard, value: idString, trigger: trigger)
-            } else {
-                initalizationForValue(&leaderboard, value: string)
-                scoringForValue(&leaderboard, value: string, trigger: trigger)
+    private func handleMessageWithTrigger(_ client: Client, message: Message, trigger: Trigger) {
+        if let text = message.text, let lower = text.range(of: trigger.rawValue)?.lowerBound {
+            let end = text.characters.index(before:lower)
+            if let start = text.rangeOfCharacter(from: atSet, options: .backwards, range: text.startIndex..<end)?.lowerBound {
+                if let id = client.team?.id, leaderboards.filter({$0.teamID == id}).count == 0 {
+                    leaderboards.append(Leaderboard(teamID: id))
+                }
+                guard var leaderboard = leaderboards.filter({$0.teamID == client.team?.id}).first else {
+                    return
+                }
+                let string = text.substring(from: start).substring(to: end)
+                let users = client.users.values.filter{$0.id == self.userID(string)}
+                if users.count > 0 {
+                    let idString = userID(string)
+                    initalizationForValue(&leaderboard, value: idString)
+                    scoringForValue(&leaderboard, value: idString, trigger: trigger)
+                } else {
+                    initalizationForValue(&leaderboard, value: string)
+                    scoringForValue(&leaderboard, value: string, trigger: trigger)
+                }
             }
         }
     }
     
-    private func handleCommand(client: Client, command: Command, channel:String?) {
+    private func handleCommand(_ client: Client, command: Command, channel:String?) {
         switch command {
         case .Leaderboard:
             if let id = channel {
@@ -118,13 +119,13 @@ class Leaderboard: MessageEventsDelegate {
         }
     }
     
-    private func initalizationForValue(inout leaderboard: Leaderboard, value: String) {
+    private func initalizationForValue(_ leaderboard: inout Leaderboard, value: String) {
         if leaderboard.scores[value] == nil {
             leaderboard.scores[value] = 0
         }
     }
     
-    private func scoringForValue(inout leaderboard:Leaderboard, value: String, trigger: Trigger) {
+    private func scoringForValue(_ leaderboard:inout Leaderboard, value: String, trigger: Trigger) {
         switch trigger {
         case .PlusPlus:
             leaderboard.scores[value]?+=1
@@ -134,7 +135,7 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     // MARK: Leaderboard Interface
-    private func constructLeaderboardAttachment(client: Client) -> Attachment? {
+    private func constructLeaderboardAttachment(_ client: Client) -> Attachment? {
         if let leaderboard = leaderboards.filter({$0.teamID == client.team?.id}).first {
             let 💯 = AttachmentField(title: "💯", value: swapIDsForNames(client, string: topItems(leaderboard)), short: true)
             let 💩 = AttachmentField(title: "💩", value: swapIDsForNames(client, string: bottomItems(leaderboard)), short: true)
@@ -143,19 +144,19 @@ class Leaderboard: MessageEventsDelegate {
         return nil
     }
     
-    private func topItems(leaderboard: Leaderboard) -> String {
-        let sortedKeys = Array(leaderboard.scores.keys).sort({leaderboard.scores[$0] > leaderboard.scores[$1]}).filter({leaderboard.scores[$0] > 0})
-        let sortedValues = Array(leaderboard.scores.values).sort({$0 > $1}).filter({$0 > 0})
+    private func topItems(_ leaderboard: Leaderboard) -> String {
+        let sortedKeys = Array(leaderboard.scores.keys).sorted(isOrderedBefore: {leaderboard.scores[$0] > leaderboard.scores[$1]}).filter({leaderboard.scores[$0] > 0})
+        let sortedValues = Array(leaderboard.scores.values).sorted(isOrderedBefore: {$0 > $1}).filter({$0 > 0})
         return leaderboardString(sortedKeys, values: sortedValues)
     }
     
-    private func bottomItems(leaderboard: Leaderboard) -> String {
-        let sortedKeys = Array(leaderboard.scores.keys).sort({leaderboard.scores[$0] < leaderboard.scores[$1]}).filter({leaderboard.scores[$0] < 0})
-        let sortedValues = Array(leaderboard.scores.values).sort({$0 < $1}).filter({$0 < 0})
+    private func bottomItems(_ leaderboard: Leaderboard) -> String {
+        let sortedKeys = Array(leaderboard.scores.keys).sorted(isOrderedBefore: {leaderboard.scores[$0] < leaderboard.scores[$1]}).filter({leaderboard.scores[$0] < 0})
+        let sortedValues = Array(leaderboard.scores.values).sorted(isOrderedBefore: {$0 < $1}).filter({$0 < 0})
         return leaderboardString(sortedKeys, values: sortedValues)
     }
     
-    private func leaderboardString(keys: [String], values: [Int]) -> String {
+    private func leaderboardString(_ keys: [String], values: [Int]) -> String {
         var returnValue = ""
         for i in 0..<values.count {
             returnValue += keys[i] + " (" + "\(values[i])" + ")\n"
@@ -164,18 +165,18 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     // MARK: - Utilities
-    private func swapIDsForNames(client: Client, string: String) -> String {
+    private func swapIDsForNames(_ client: Client, string: String) -> String {
         var returnString = string
         for key in client.users.keys {
             if let name = client.users[key]?.name {
-                returnString = returnString.stringByReplacingOccurrencesOfString(key, withString: "@"+name, options: NSStringCompareOptions.LiteralSearch, range: returnString.startIndex..<returnString.endIndex)
+                returnString = returnString.replacingOccurrences(of: key, with: "@"+name, options: NSString.CompareOptions.literal, range: returnString.startIndex..<returnString.endIndex)
             }
         }
         return returnString
     }
     
-    private func userID(string: String) -> String {
-        return string.stringByTrimmingCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet)
+    private func userID(_ string: String) -> String {
+        return string.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     }
     
 }

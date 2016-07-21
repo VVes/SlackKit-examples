@@ -23,5 +23,4 @@
 
 import Foundation
 
-let leaderboard = Leaderboard(clientID: "CLIENT-ID", clientSecret: "CLIENT-SECRET")
-NSRunLoop.mainRunLoop().run()
+RunLoop.main.run()
