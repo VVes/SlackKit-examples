@@ -1,4 +1,4 @@
-# SlackKit Examples
+# SlackKit Examples (Swift 2.2)
 Example applications built with SlackKit.
 
 For Swift 3 examples, look at the [`swift3` branch](https://github.com/pvzig/SlackKit-examples/tree/swift3).
