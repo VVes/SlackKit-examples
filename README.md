@@ -1,4 +1,4 @@
-# SlackKit Examples
+# SlackKit Examples (Swift 3)
 Example applications built with SlackKit.
 
 ## Leaderboard
