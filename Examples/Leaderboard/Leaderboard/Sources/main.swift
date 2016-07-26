@@ -23,4 +23,5 @@
 
 import Foundation
 
+let leaderboard = Leaderboard(clientID: "CLIENT-ID", clientSecret: "CLIENT-SECRET")
 RunLoop.main.run()
