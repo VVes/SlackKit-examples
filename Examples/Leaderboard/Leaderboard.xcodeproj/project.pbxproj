@@ -7,11 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		262CD3391D98CA4A0007884F /* SlackKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3331D98CA2D0007884F /* SlackKit.framework */; };
+		262CD33A1D98CA4A0007884F /* SlackKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3331D98CA2D0007884F /* SlackKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		262CD33B1D98CA4A0007884F /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3341D98CA2D0007884F /* Starscream.framework */; };
+		262CD33C1D98CA4A0007884F /* Starscream.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3341D98CA2D0007884F /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		262CD33D1D98CA4A0007884F /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3351D98CA2D0007884F /* Swifter.framework */; };
+		262CD33E1D98CA4A0007884F /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 262CD3351D98CA2D0007884F /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26B30BB31D2AD876004D4AB5 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B30BB11D2AD876004D4AB5 /* Leaderboard.swift */; };
 		26B30BB41D2AD876004D4AB5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B30BB21D2AD876004D4AB5 /* main.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		262CD33F1D98CA4A0007884F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				262CD33E1D98CA4A0007884F /* Swifter.framework in Embed Frameworks */,
+				262CD33A1D98CA4A0007884F /* SlackKit.framework in Embed Frameworks */,
+				262CD33C1D98CA4A0007884F /* Starscream.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		262CD3331D98CA2D0007884F /* SlackKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlackKit.framework; path = Carthage/Build/Mac/SlackKit.framework; sourceTree = "<group>"; };
+		262CD3341D98CA2D0007884F /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
+		262CD3351D98CA2D0007884F /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/Mac/Swifter.framework; sourceTree = "<group>"; };
 		26B30BA41D2AD338004D4AB5 /* Leaderboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leaderboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B30BA91D2AD338004D4AB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26B30BB11D2AD876004D4AB5 /* Leaderboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Leaderboard.swift; path = Sources/Leaderboard.swift; sourceTree = "<group>"; };
@@ -23,17 +48,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				262CD33D1D98CA4A0007884F /* Swifter.framework in Frameworks */,
+				262CD3391D98CA4A0007884F /* SlackKit.framework in Frameworks */,
+				262CD33B1D98CA4A0007884F /* Starscream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		262CD3261D98B5BE0007884F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				262CD3331D98CA2D0007884F /* SlackKit.framework */,
+				262CD3341D98CA2D0007884F /* Starscream.framework */,
+				262CD3351D98CA2D0007884F /* Swifter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		26B30B9C1D2AD338004D4AB5 = {
 			isa = PBXGroup;
 			children = (
 				26B30BA61D2AD338004D4AB5 /* Leaderboard */,
 				26B30BA51D2AD338004D4AB5 /* Products */,
+				262CD3261D98B5BE0007884F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +103,7 @@
 			buildPhases = (
 				26B30BA11D2AD338004D4AB5 /* Sources */,
 				26B30BA21D2AD338004D4AB5 /* Frameworks */,
+				262CD33F1D98CA4A0007884F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -81,11 +121,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Launch Software";
 				TargetAttributes = {
 					26B30BA31D2AD338004D4AB5 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -201,20 +242,31 @@
 		26B30BAD1D2AD338004D4AB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Leaderboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = LS.Leaderboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		26B30BAE1D2AD338004D4AB5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Leaderboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = LS.Leaderboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
