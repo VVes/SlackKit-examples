@@ -1,7 +1,7 @@
-# SlackKit Examples (Swift 2.2)
+# SlackKit Examples (Swift 2.3)
 Example applications built with SlackKit.
 
-For Swift 3 examples, look at the [`swift3` branch](https://github.com/pvzig/SlackKit-examples/tree/swift3).
+For Swift 3 examples, look at the [`master` branch](https://github.com/pvzig/SlackKit-examples/).
 
 ## Leaderboard
 A basic leaderboard scoring bot, in the spirit of [PlusPlus](https://plusplus.chat), built with [SlackKit](https://github.com/pvzig/SlackKit).

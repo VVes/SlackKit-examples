@@ -1,0 +1,28 @@
+PODS:
+  - SlackKit (2.0.0):
+    - Starscream (~> 1.1.3)
+    - Swifter
+  - Starscream (1.1.4)
+  - Swifter (1.2.6)
+
+DEPENDENCIES:
+  - SlackKit (from `https://github.com/pvzig/SlackKit.git`, branch `swift2.3`)
+
+EXTERNAL SOURCES:
+  SlackKit:
+    :branch: swift2.3
+    :git: https://github.com/pvzig/SlackKit.git
+
+CHECKOUT OPTIONS:
+  SlackKit:
+    :commit: c7365455d2df8d30642d3699d0e1cfac0a263ef5
+    :git: https://github.com/pvzig/SlackKit.git
+
+SPEC CHECKSUMS:
+  SlackKit: bdd2ad0cd22b08da59fac1ba3e390bf19f23dcfe
+  Starscream: f919aeaf81afca6d5d4d3e5f6dd136ec92af2aa1
+  Swifter: c6f13d053398f1e2f209c7a394dfd5e863ae0157
+
+PODFILE CHECKSUM: e9fad74d3ed0d0817eb3106be89f8c8afdd3c5d6
+
+COCOAPODS: 1.0.1

@@ -1,1 +1,1 @@
-github "pvzig/SlackKit" ~> 2.0
+github "pvzig/SlackKit" "swift2.3"
