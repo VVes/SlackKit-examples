@@ -59,14 +59,14 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     // MARK: MessageEventsDelegate
-    func messageReceived(_ client: Client, message: Message) {
+    func received(_ message: Message, client: Client) {
         listen(client, message: message)
     }
     
-    func messageSent(_ client: Client, message: Message){}
-    func messageChanged(_ client: Client, message: Message){}
-    func messageDeleted(_ client: Client, message: Message?){}
-    
+    func sent(_ message: Message, client: Client) {}
+    func changed(_ message: Message, client: Client) {}
+    func deleted(_ message: Message?, client: Client) {}
+
     // MARK: Leaderboard Internal Logic
     private func listen(_ client: Client, message: Message) {
         if let id = client.authenticatedUser?.id, let text = message.text {
@@ -145,14 +145,14 @@ class Leaderboard: MessageEventsDelegate {
     }
     
     private func topItems(_ leaderboard: Leaderboard) -> String {
-        let sortedKeys = Array(leaderboard.scores.keys).sorted(isOrderedBefore: {leaderboard.scores[$0] > leaderboard.scores[$1]}).filter({leaderboard.scores[$0] > 0})
-        let sortedValues = Array(leaderboard.scores.values).sorted(isOrderedBefore: {$0 > $1}).filter({$0 > 0})
+        let sortedKeys = Array(leaderboard.scores.keys).sorted(by: {leaderboard.scores[$0]! > leaderboard.scores[$1]!}).filter({leaderboard.scores[$0]! > 0})
+        let sortedValues = Array(leaderboard.scores.values).sorted(by: {$0 > $1}).filter({$0 > 0})
         return leaderboardString(sortedKeys, values: sortedValues)
     }
     
     private func bottomItems(_ leaderboard: Leaderboard) -> String {
-        let sortedKeys = Array(leaderboard.scores.keys).sorted(isOrderedBefore: {leaderboard.scores[$0] < leaderboard.scores[$1]}).filter({leaderboard.scores[$0] < 0})
-        let sortedValues = Array(leaderboard.scores.values).sorted(isOrderedBefore: {$0 < $1}).filter({$0 < 0})
+        let sortedKeys = Array(leaderboard.scores.keys).sorted(by: {leaderboard.scores[$0]! < leaderboard.scores[$1]!}).filter({leaderboard.scores[$0]! < 0})
+        let sortedValues = Array(leaderboard.scores.values).sorted(by: {$0 < $1}).filter({$0 < 0})
         return leaderboardString(sortedKeys, values: sortedValues)
     }
     
