@@ -139,7 +139,7 @@ class Leaderboard: MessageEventsDelegate {
         if let leaderboard = leaderboards.filter({$0.teamID == client.team?.id}).first {
             let 💯 = AttachmentField(title: "💯", value: swapIDsForNames(client, string: topItems(leaderboard)), short: true)
             let 💩 = AttachmentField(title: "💩", value: swapIDsForNames(client, string: bottomItems(leaderboard)), short: true)
-            return Attachment(fallback: "Leaderboard", title: "Leaderboard", colorHex: AttachmentColor.Good.rawValue, text: "", fields: [💯, 💩])
+            return Attachment(fallback: "Leaderboard", title: "Leaderboard", colorHex: AttachmentColor.good.rawValue, text: "", fields: [💯, 💩])
         }
         return nil
     }
